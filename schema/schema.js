@@ -103,7 +103,11 @@ const Mutation = new GraphQLObjectType({
                 id: {type: GraphQLID}
             },
             resolve(parent, args) {
-                return Author.findByIdAndUpdate(args.id, args)
+                return Author.findByIdAndUpdate(args.id, args, {
+                    'upsert': true,
+                    'new': true,
+                    'runValidators': true,
+                })
             }
         },
         addBook: {
@@ -120,6 +124,22 @@ const Mutation = new GraphQLObjectType({
                     authorId: args.authorId
                 });
                 return book.save();
+            }
+        },
+        updateBook: {
+            type: BookType,
+            args: {
+                id: {type: GraphQLID},
+                authorId: {type: GraphQLID},
+                name: {type: GraphQLString},
+                genre: {type: GraphQLString}
+            },
+            resolve(parent, args) {
+                return Book.findByIdAndUpdate(args.id, args, {
+                    'upsert': true,
+                    'new': true,
+                    'runValidators': true,
+                })
             }
         },
         deleteBook: {
