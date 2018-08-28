@@ -20,6 +20,7 @@ const BookType = new GraphQLObjectType({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
         genre: {type: GraphQLString},
+        isbn: {type: GraphQLString},
         author: {
             type: AuthorType,
             resolve(parent, args) {
@@ -115,12 +116,14 @@ const Mutation = new GraphQLObjectType({
             args: {
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 genre: {type: new GraphQLNonNull(GraphQLString)},
+                isbn: {type: new GraphQLNonNull(GraphQLString)},
                 authorId: {type: new GraphQLNonNull(GraphQLID)}
             },
             resolve(parent, args) {
                 let book = new Book({
                     name: args.name,
                     genre: args.genre,
+                    isbn: args.isbn,
                     authorId: args.authorId
                 });
                 return book.save();
@@ -132,6 +135,7 @@ const Mutation = new GraphQLObjectType({
                 id: {type: GraphQLID},
                 authorId: {type: GraphQLID},
                 name: {type: GraphQLString},
+                isbn: {type: GraphQLString},
                 genre: {type: GraphQLString}
             },
             resolve(parent, args) {
