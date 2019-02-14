@@ -9,6 +9,7 @@ const server = express();
 server.use(cors());
 
 mongoose.connect("mongodb://Lunatial:test123@ds125402.mlab.com:25402/gqlbookdb", { useNewUrlParser: true });
+mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.connection.once('open', () => console.log('connected to database'));
 
